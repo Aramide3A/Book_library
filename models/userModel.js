@@ -15,6 +15,16 @@ const schema = mongoose.Schema({
         type: String,
         required: true
     },
+    full_name: {
+        type: String,
+    },
+    address: {
+        type: String,
+    },
+    phone: {
+        type: String,
+        match: [/^\+?[1-9]\d{1,14}$/, 'Please enter a valid phone number']
+    },
     isAdmin : {
         type : Boolean,
         default : false
