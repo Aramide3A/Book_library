@@ -20,4 +20,4 @@ function bookValidate(book){
     return schema.validate(book)
 }
 
-module.exports = [userValidate, bookValidate]
+module.exports = {userValidate, bookValidate}

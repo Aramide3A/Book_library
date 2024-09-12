@@ -1,11 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const Joi  = require('joi')
 const Books = require('../models/bookModel')
-const Genres = require('../models/genreModel')
-const Authors = require('../models/authorModel')
 const passport = require('passport')
-const bookValidate = require('../middleware/inputValidate.middleware')
+const {bookValidate} = require('../middleware/inputValidate.middleware')
 const validateAdmin = require('../middleware/adminAuth.middleware')
 
 //Router to create new books(for admins only)
@@ -20,19 +17,27 @@ router.post('/new',[passport.authenticate('jwt',{session:false}), validateAdmin]
     res.send(book)
 })
 
-router.get('/', async(req, res)=>{
-    const allbooks = await Books.find()
+
+//Route to get all books
+router.get('/',passport.authenticate('jwt', {session: false}), async(req, res)=>{
+    const allbooks = await Books.find().select('-availability')
     res.send(allbooks)
 })
 
-router.put('/:id', async(req, res)=>{
+
+//Route to update books(for admins only)
+router.put('/:id',[passport.authenticate('jwt',{session:false}), validateAdmin], async(req, res)=>{
     const book = await  Books.findByIdAndUpdate(req.params.id, req.body, {new:true})
     res.send(`${book}`)
 })
 
-router.delete('/:id', async(req, res)=>{
+
+//Route to delete books(for admins only)
+router.delete('/:id',[passport.authenticate('jwt',{session:false}), validateAdmin], async(req, res)=>{
     const book =await  Books.findByIdAndDelete(req.params.id)
     res.send(`${book.name} was successfully deleted`)
 })
+
+
 
 module.exports = router

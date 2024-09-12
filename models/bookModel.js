@@ -8,14 +8,20 @@ const schema = mongoose.Schema({
     title :{
         type : String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
+        lowercase: true
     },
     author: {
         type : String,
-        required: true
+        required: true,
+        trim: true,
+        lowercase: true
     },
     genre: {
-        type : String
+        type : String,
+        trim: true,
+        lowercase: true
     },
     description: {
         type : String,

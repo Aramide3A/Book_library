@@ -3,7 +3,7 @@ const router = express.Router()
 const User = require('../models/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const userValidate = require('../middleware/inputValidate.middleware')
+const {userValidate} = require('../middleware/inputValidate.middleware')
 const passport = require('passport')
 require('dotenv').config()
 const Secret_Key = process.env.Secret_Key
