@@ -20,7 +20,23 @@ router.post('/new',[passport.authenticate('jwt',{session:false}), validateAdmin]
 
 //Route to get all books
 router.get('/',passport.authenticate('jwt', {session: false}), async(req, res)=>{
-    const allbooks = await Books.find().select('-availability')
+    const searchCriteria = {}
+
+    const title = req.query.title
+    const author = req.query.author
+    const genre = req.query.genre
+
+    if (title) {
+        searchCriteria.title = title
+    }
+    if (author) {
+        searchCriteria.author = author
+    }
+    if (genre) {
+        searchCriteria.genre = genre
+    }
+
+    const allbooks = await Books.find(searchCriteria).select('-availability')
     res.send(allbooks)
 })
 
