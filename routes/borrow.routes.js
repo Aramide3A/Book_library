@@ -85,9 +85,6 @@ router.post('/borrow/:id/renew', passport.authenticate('jwt', {session:false}), 
         
         const checkReservation = reserveList.find({book: getBook._id})
         if (checkReservation.length >= getBook.quantity) return res.status(400).send('Book Currently Not Avialable For Renewal')
-        checkReservation.forEach((element)=>{
-            if (element.user === req.user._id) return res.status(400).send('You cant reserve the same book twice')
-        })
 
         getBorrowList.overdue.setDate(getBorrowList.overdue + 7)
         await getBorrowList.save()
