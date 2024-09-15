@@ -6,13 +6,14 @@ const book = require('./routes/book.routes')
 const auth = require('./routes/user.routes')
 const borrow = require('./routes/borrow.routes')
 const reserve = require('./routes/reserve.routes')
+const history = require('./routes/history.routes')
 require('dotenv').config()
 
 app.use(express.json())
 app.use(passport.initialize())
 require('./middleware/auth.middleware')
 app.use('/api/auth', auth)
-app.use('/api/book', [book,borrow,reserve])
+app.use('/api/book', [book,borrow,reserve,history])
 
 try {
     mongoose.connect('mongodb://localhost:27017/library')
